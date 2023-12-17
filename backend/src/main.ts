@@ -43,7 +43,7 @@ async function bootstrap() {
     }),
   );
 
-  app.useGlobalFilters(new GraphQLErrorFilter());
+  //app.useGlobalFilters(new GraphQLErrorFilter());
 
   await app.listen(3000);
 }
