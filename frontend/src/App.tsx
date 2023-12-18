@@ -1,9 +1,20 @@
+import "./index.css"
+import useGeneralStore from "./stores/generalStore"
+import { useUserStore } from "./stores/userStore"
+import EditProfileOverlay from "./components/EditProfileOverlay"
+import AuthModal from "./components/AuthModal"
 
 function App() {
-
+  const isLoginOpen = useGeneralStore((state) => state.isLoginOpen)
+  const isEditProfileOpen = useGeneralStore((state) => state.isEditProfileOpen)
   return (
-    <div className="bg-red-500">
-      <h1 className="text-4xl text-center">Hello World</h1>
+    <div className=" ">
+      {isLoginOpen && (
+        <>
+          <AuthModal />
+        </>
+      )}{" "}
+      {isEditProfileOpen && <EditProfileOverlay />}
     </div>
   )
 }

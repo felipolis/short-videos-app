@@ -3,13 +3,14 @@ import { AppModule } from './app.module';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { ApolloError } from 'apollo-server-express';
 import * as cookieParser from 'cookie-parser';
+import { GraphQLErrorFilter } from './filters/custom-exception.filter';
 import * as graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: 'http://127.0.0.1:5173',
+    origin: 'http://localhost:5173',
     credentials: true,
     // all headers that client are allowed to use
     allowedHeaders: [
@@ -37,13 +38,12 @@ async function bootstrap() {
           );
           return accumulator;
         }, {});
-        // return formatted errors being an object with properties mapping to errors
         throw new BadRequestException(formattedErrors);
       },
     }),
   );
 
-  //app.useGlobalFilters(new GraphQLErrorFilter());
+  app.useGlobalFilters(new GraphQLErrorFilter());
 
   await app.listen(3000);
 }

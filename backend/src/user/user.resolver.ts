@@ -6,7 +6,7 @@ import { RegisterDto, LoginDto } from '../auth/dto';
 import * as GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
 import { Response, Request } from 'express';
 import { LoginResponse, RegisterResponse } from 'src/auth/types';
-//import { GraphQLErrorFilter } from 'src/filters/custom-exception.filter';
+import { GraphQLErrorFilter } from 'src/filters/custom-exception.filter';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from './user.service';
 import { User } from './user.model';
@@ -22,6 +22,7 @@ export class UserResolver {
     private readonly userService: UserService,
   ) {}
 
+  @UseFilters(GraphQLErrorFilter)
   @Mutation(() => RegisterResponse)
   async register(
     @Args('registerInput') registerDto: RegisterDto,
@@ -32,19 +33,8 @@ export class UserResolver {
         confirmPassword: 'Password and confirm password are not the same.',
       });
     }
-    try {
-      const { user } = await this.authService.register(
-        registerDto,
-        context.res,
-      );
-      return { user };
-    } catch (error) {
-      return {
-        error: {
-          message: error.message,
-        },
-      };
-    }
+    const { user } = await this.authService.register(registerDto, context.res);
+    return { user };
   }
 
   @Mutation(() => LoginResponse)

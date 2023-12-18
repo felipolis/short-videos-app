@@ -8,6 +8,12 @@ import Upload from "./pages/Upload.tsx"
 import Profile from "./pages/Profile.tsx"
 import SinglePost from "./pages/SinglePost.tsx"
 import ProtectedRoutes from './components/ProtectedRoutes.tsx'
+import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev"
+import { ApolloProvider } from "@apollo/client"
+import { client } from "./utils/apolloClient"
+
+loadDevMessages()
+loadErrorMessages()
 
 const router = createBrowserRouter([
   {
@@ -38,7 +44,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-    <App />
+    <ApolloProvider client={client}>
+      <RouterProvider router={router} />
+      <App />
+    </ApolloProvider>
   </React.StrictMode>,
 )
