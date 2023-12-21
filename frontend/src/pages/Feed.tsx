@@ -1,10 +1,60 @@
-import React from 'react'
-import MainLayout from '../layouts/MainLayout'
+import React, { useEffect } from "react"
+import MainLayout from "../layouts/MainLayout"
+import { GET_ALL_POSTS } from "../graphql/queries/getPosts"
+import { useQuery } from "@apollo/client"
+import PostFeed from "../components/PostFeed"
+import { PostType } from "../gql/graphql"
 
-const Feed = () => {
+function Feed() {
+  const loadMoreRef = React.useRef<HTMLDivElement | null>(null)
+
+  const { data, loading, fetchMore } = useQuery(GET_ALL_POSTS, {
+    variables: { skip: 0, take: 2 },
+  })
+
+  const loadMorePosts = async () => {
+    try {
+      await fetchMore({
+        variables: {
+          skip: data?.getPosts.length || 0,
+          take: 2,
+        },
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          console.log("Observer triggered")
+          loadMorePosts()
+        }
+      },
+      { threshold: 1 }
+    )
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current)
+    }
+
+    return () => {
+      if (loadMoreRef.current) {
+        observer.unobserve(loadMoreRef.current)
+      }
+    }
+  }, [loadMorePosts])
+
   return (
     <MainLayout>
-      Feed
+      <div className="pt-[80px] w-[calc(100%-90px)] max-w-[690px] ">
+        {data?.getPosts.map((post: PostType) => (
+          <PostFeed key={post.id} post={post} />
+        ))}
+        <div className="h-20" ref={loadMoreRef}></div>
+      </div>
     </MainLayout>
   )
 }
