@@ -63,4 +63,9 @@ export class UserResolver {
   async hello() {
     return 'Hello World!';
   }
+
+  @Query(() => [User])
+  async getUsers() {
+    return this.userService.getUsers();
+  }
 }
