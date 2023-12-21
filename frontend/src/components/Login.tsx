@@ -20,28 +20,25 @@ function Login() {
 
   const handleLogin = async () => {
     setErrors({})
-    await loginUser({
-      variables: {
-        email: loginData.email,
-        password: loginData.password,
-      },
-    }).catch((err) => {
-      if(err.graphQLErrors[0].extensions?.invalidCredentials) {
-        setInvalidCredentials(
-          err.graphQLErrors[0].extensions?.invalidCredentials
-        )
-      } else {
-        setErrors(err.graphQLErrors[0].extensions)
-      }
-    })
-
-    if (data?.login.user) {
-      setUser({
-        id: data.login.user.id,
-        email: data.login.user.email,
-        fullname: data.login.user.fullname,
+    try {
+      const response = await loginUser({
+        variables: {
+          email: loginData.email,
+          password: loginData.password,
+        },
       })
+
+      response && response.data && setUser(response.data.login.user)
       setLoginIsOpen(false)
+    } catch (_) {
+      if (error && error.graphQLErrors[0].extensions?.invalidCredentials) {
+        setInvalidCredentials(
+          error.graphQLErrors[0].extensions?.invalidCredentials
+        )
+      } else if (error) {
+        setErrors(error.graphQLErrors[0].extensions)
+      
+      }
     }
   }
 
