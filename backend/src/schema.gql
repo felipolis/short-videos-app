@@ -44,10 +44,12 @@ type Mutation {
   createPost(text: String!, video: Upload!): PostType!
   deleteComment(id: Float!): Comment!
   deletePost(id: Float!): PostType!
+  likePost(postId: Float!): LikeType!
   login(loginInput: LoginDto!): LoginResponse!
   logout: String!
   refreshToken: String!
   register(registerInput: RegisterDto!): RegisterResponse!
+  unlikePost(postId: Float!): LikeType!
 }
 
 type PostDetails {

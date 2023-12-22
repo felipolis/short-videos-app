@@ -4,6 +4,7 @@ import { LikeService } from './like.service';
 import { PrismaService } from 'src/prisma.service';
 import { GraphqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   providers: [
@@ -12,6 +13,7 @@ import { ConfigService } from '@nestjs/config';
     PrismaService,
     GraphqlAuthGuard,
     ConfigService,
+    JwtService,
   ],
 })
 export class LikeModule {}

@@ -6,11 +6,11 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import Feed from "./pages/Feed.tsx"
 import Upload from "./pages/Upload.tsx"
 import Profile from "./pages/Profile.tsx"
-import SinglePost from "./pages/SinglePost.tsx"
-import ProtectedRoutes from './components/ProtectedRoutes.tsx'
 import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev"
 import { ApolloProvider } from "@apollo/client"
 import { client } from "./utils/apolloClient"
+import ProtectedRoutes from './components/ProtectedRoutes.tsx'
+import Post from './pages/Post.tsx'
 
 loadDevMessages()
 loadErrorMessages()
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/post/:id",
-    element: <SinglePost />,
+    element: <Post />,
   },
 ])
 

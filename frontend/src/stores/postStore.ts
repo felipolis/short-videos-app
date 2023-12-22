@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
-type PostState = {
+interface PostState {
   likedPosts: Array<{
     id: number
     userId: number
@@ -17,7 +17,6 @@ export const usePostStore = create<PostState>()(
       likedPosts: [],
       likePost: (post) => {
         set((state) => {
-          console.log("likedPosts", state.likedPosts)
           return { likedPosts: [...state.likedPosts, post] }
         })
       },
