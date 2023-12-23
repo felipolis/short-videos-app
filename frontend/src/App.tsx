@@ -1,7 +1,7 @@
 import "./index.css"
 import useGeneralStore from "./stores/generalStore"
 import { useUserStore } from "./stores/userStore"
-import EditProfileOverlay from "./components/EditProfileOverlay"
+import EditProfileOverlay from "./components/EditProfileModal"
 import AuthModal from "./components/AuthModal"
 
 function App() {

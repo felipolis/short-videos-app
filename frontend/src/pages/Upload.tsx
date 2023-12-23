@@ -40,6 +40,7 @@ function Upload() {
       text: caption,
       video: fileData,
     },
+    refetchQueries: ["getPosts"]
   })
 
   const handleCreatePost = async () => {

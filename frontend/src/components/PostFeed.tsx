@@ -6,8 +6,8 @@ import { IoIosShareAlt } from "react-icons/io"
 import { PostType } from "../gql/graphql"
 import { Link } from "react-router-dom"
 import { useQuery } from "@apollo/client"
-//import { GetCommentsByPostIdQuery } from "../gql/graphql"
-//import { GET_COMMENTS_BY_POST_ID } from "../graphql/queries/getCommentsByPostId"
+import { GetCommentsByPostIdQuery } from "../gql/graphql"
+import { GET_COMMENTS_BY_POST_ID } from "../graphql/queries/getCommentsByPostId"
 
 function PostFeed({ post }: { post: PostType }) {
   const video = useRef<HTMLVideoElement>(null)
@@ -15,12 +15,12 @@ function PostFeed({ post }: { post: PostType }) {
   useEffect(() => {
     video.current?.play()
   })
-/*   const { data, loading, error } = useQuery<GetCommentsByPostIdQuery>(
+  const { data, loading, error } = useQuery<GetCommentsByPostIdQuery>(
     GET_COMMENTS_BY_POST_ID,
     {
       variables: { postId: post.id },
     }
-  ) */
+  )
 
   return (
     <div id="PostFeed" className="flex border-b py-6">
@@ -49,7 +49,7 @@ function PostFeed({ post }: { post: PostType }) {
           </button>
         </div>
         <div className="text-[15px] pb-0.5 break-words md:max-w-[480px] max-w-[300px]">
-          This is some text
+          {post.text}
         </div>
         <div className="text-[14px] text-gray-500 pb-0.5">
           #fun #cool #superAwesome
@@ -91,10 +91,10 @@ function PostFeed({ post }: { post: PostType }) {
               <button className="rounded-full bg-gray-200 p-2 cursor-pointer">
                 <IoChatbubbleEllipses size="25" color="black" />
               </button>
-              {/* <span className="text-xs text-gray-800 font-semitbold">
+              <span className="text-xs text-gray-800 font-semitbold">
                 {" "}
                 {data?.getCommentsByPostId.length}
-              </span> */}
+              </span>
             </div>
           </div>
         </div>
